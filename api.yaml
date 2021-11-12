@@ -1,0 +1,51 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/NerdHerders/todo/1.0.0
+info:
+  description: This is a simple ToDo API
+  version: "1.0.0"
+  title: Simple ToDo API
+  contact:
+    email: sean@millernerd.com
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: users
+    description: Operations available to regular users
+paths: {}
+components:
+  schemas:
+    Task:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        title:
+          type: string
+          example: Take out the trash
+        body:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+            example: urgent
+        priority:
+          type: integer
+          format: int32
+        color:
+          type: string
+          format: binary
+        due:
+          type: string
+          format: date
