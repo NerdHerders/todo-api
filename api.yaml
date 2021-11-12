@@ -17,9 +17,74 @@ tags:
     description: Secured Admin-only calls
   - name: users
     description: Operations available to regular users
-paths: {}
+paths:
+  /tasks:
+    get:
+      description: Returns all active tasks
+      responses:
+        "200":
+          description: A list of tasks
+          content:
+            application/*:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+        default:
+          description: Unexpected error
+          content:
+            application/*:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+  /tasks/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: ID of task to use
+        required: true
+        schema:
+          $ref: "#/components/schemas/uuid"
+        allowEmptyValue: false
+    post:
+      description: Adds new active task
+      requestBody:
+        description: ""
+        content:
+          application/*:
+            schema:
+              $ref: "#/components/schemas/Task"
+        required: true
+      responses:
+        "200":
+          description: ""
+          content:
+            application/*:
+              schema:
+                type: string
+                example: "success!"
+    put:
+      description: Updates a task
+      requestBody:
+        description: ""
+        content:
+          application/*:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        "200":
+          description: ""
+    delete:
+      description: Deletes a task
+      responses:
+        "200":
+          description: ""
+
 components:
   schemas:
+    uuid:
+      type: string
+      format: uuid
+      example: d290f1ee-6c54-4b01-90e6-d701748f0851
     Task:
       type: object
       required:
@@ -27,9 +92,7 @@ components:
         - name
       properties:
         id:
-          type: string
-          format: uuid
-          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+          $ref: "#/components/schemas/uuid"
         title:
           type: string
           example: Take out the trash
@@ -49,3 +112,15 @@ components:
         due:
           type: string
           format: date
+    ErrorModel:
+      type: object
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+          minimum: 100
+          maximum: 600
