@@ -1,0 +1,126 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/NerdHerders/todo/1.0.0
+info:
+  description: This is a simple ToDo API
+  version: "1.0.0"
+  title: Simple ToDo API
+  contact:
+    email: sean@millernerd.com
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: users
+    description: Operations available to regular users
+paths:
+  /tasks:
+    get:
+      description: Returns all active tasks
+      responses:
+        "200":
+          description: A list of tasks
+          content:
+            application/*:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+        default:
+          description: Unexpected error
+          content:
+            application/*:
+              schema:
+                $ref: "#/components/schemas/ErrorModel"
+  /tasks/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: ID of task to use
+        required: true
+        schema:
+          $ref: "#/components/schemas/uuid"
+        allowEmptyValue: false
+    post:
+      description: Adds new active task
+      requestBody:
+        description: ""
+        content:
+          application/*:
+            schema:
+              $ref: "#/components/schemas/Task"
+        required: true
+      responses:
+        "200":
+          description: ""
+          content:
+            application/*:
+              schema:
+                type: string
+                example: "success!"
+    put:
+      description: Updates a task
+      requestBody:
+        description: ""
+        content:
+          application/*:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        "200": 
+          description: ""
+    delete:
+      description: Deletes a task
+      responses:
+        "200": 
+          description: ""
+
+components:
+  schemas:
+    uuid:
+      type: string
+      format: uuid
+      example: d290f1ee-6c54-4b01-90e6-d701748f0851
+    Task:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          $ref: "#/components/schemas/uuid"
+        title:
+          type: string
+          example: Take out the trash
+        body:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+            example: urgent
+        priority:
+          type: integer
+          format: int32
+        color:
+          type: string
+          format: binary
+        due:
+          type: string
+          format: date
+    ErrorModel:
+      type: object
+      required:
+        - message
+        - code
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+          minimum: 100
+          maximum: 600
