@@ -45,6 +45,23 @@ paths:
         schema:
           $ref: "#/components/schemas/uuid"
         allowEmptyValue: false
+    get:
+      description: Returns specified task
+      responses:
+        "200":
+          description: A single task
+          content:
+            application/*:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/Task"
+        default:
+          description: error payload
+          content:
+            application/*:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
     post:
       description: Adds new active task
       requestBody:
